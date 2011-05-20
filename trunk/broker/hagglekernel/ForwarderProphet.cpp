@@ -38,7 +38,7 @@ size_t ForwarderProphet::getSaveState(RepositoryEntryList& rel)
 	for (bubble_rib_t::iterator it = rib.begin(); it != rib.end(); it++) {
 		char value[256];
 		snprintf(value, 256, "%s:%ld", (*it).second.first.c_str(), (*it).second.second);
-		HAGGLE_DBG(" Repository value is %s\n", value);
+		//HAGGLE_DBG(" Repository value is %s\n", value);
 		rel.push_back(new RepositoryEntry(getName(), id_number_to_nodeid[(*it).first].c_str(), value));
 	}
 	
@@ -60,8 +60,8 @@ bool ForwarderProphet::setSaveState(RepositoryEntryRef& e)
 	// The second part is the rank
 	metric.second = atol(value.substr(pos + 1).c_str());
 	
-	HAGGLE_DBG(" orig string=%s label=%s, rank=%ld\n", 
-		e->getValue(), metric.first.c_str(), metric.second);
+	//HAGGLE_DBG(" orig string=%s label=%s, rank=%ld\n", 
+		//e->getValue(), metric.first.c_str(), metric.second);
 	
 	rib_timestamp = Timeval::now();
 	
@@ -107,8 +107,8 @@ bool ForwarderProphet::addRoutingInformation(DataObjectRef& dObj, Metadata *pare
 	sprintf(tmp,"%ld",myRank);
 	mm->setParameter("rank", tmp);
 	
-	HAGGLE_DBG(" Sending metric xxx node:%s label:%s rank:%s \n",parent->getParameter("node_id"),
-	mm->getParameter("label"),mm->getParameter("rank"));
+	//HAGGLE_DBG(" Sending metric xxx node:%s label:%s rank:%s \n",parent->getParameter("node_id"),
+	//mm->getParameter("label"),mm->getParameter("rank"));
 				
 	dObj->setCreateTime(rib_timestamp);
 	
@@ -122,9 +122,9 @@ bool ForwarderProphet::newRoutingInformation(const Metadata *m)
 	
 	bubble_node_id_t node_b_id = id_from_string(m->getParameter("node_id"));
 	
-	HAGGLE_DBG(" New %s routing information received from: %s number: %ld \n",
-		   getName(),
-		   m->getParameter("node_id"), id_from_string(m->getParameter("node_id")));
+	//HAGGLE_DBG(" New %s routing information received from: %s number: %ld \n",
+		   //getName(),
+		   //m->getParameter("node_id"), id_from_string(m->getParameter("node_id")));
 	
 	const Metadata *mm = m->getMetadata("Metric");
 	
@@ -144,7 +144,7 @@ bool ForwarderProphet::newRoutingInformation(const Metadata *m)
 		
 		rib[node_b_id].second = node_b_rank;
 		
-		HAGGLE_DBG("Routing info received xxx from %s label:%s rank:%ld \n",node_b_hostid , rib[node_b_id].first.c_str(), rib[node_b_id].second);
+		//HAGGLE_DBG("Routing info received xxx from %s label:%s rank:%ld \n",node_b_hostid , rib[node_b_id].first.c_str(), rib[node_b_id].second);
 		
 		mm= m->getNextMetadata();
 	
@@ -164,7 +164,7 @@ void ForwarderProphet::_newNeighbor(const NodeRef &neighbor)
 	// Update our private metric regarding this node:
 	bubble_node_id_t neighbor_id = id_from_string(neighbor->getIdStr());
 	
-	HAGGLE_DBG(" _newNeighbor new node found: node %ld %s \n", neighbor_id, neighbor->getIdStr());
+	//HAGGLE_DBG(" _newNeighbor new node found: node %ld %s \n", neighbor_id, neighbor->getIdStr());
 	
 	rib_timestamp = Timeval::now();
 }
@@ -178,7 +178,7 @@ void ForwarderProphet::_endNeighbor(const NodeRef &neighbor)
 	// Update our private metric regarding this node:
 	bubble_node_id_t neighbor_id = id_from_string(neighbor->getIdStr());
 	
-	HAGGLE_DBG(" _endNeighbor node left: node %ld %s \n", neighbor_id, neighbor->getIdStr());
+	//HAGGLE_DBG(" _endNeighbor node left: node %ld %s \n", neighbor_id, neighbor->getIdStr());
 
 	rib_timestamp = Timeval::now();
 }
@@ -198,13 +198,9 @@ void ForwarderProphet::_generateDelegatesFor(const DataObjectRef &dObj, const No
 						
 	List<Pair<NodeRef, bubble_metric_t> > sorted_delegate_list;
 	
-	// Figure out which node to look for:
 	bubble_node_id_t target_id = id_from_string(target->getIdStr());
 	
 	LABEL_T targetLabel = rib[target_id].first;
-	//RANK_T targetRank = rib[target_id].second;
-	
-	//HAGGLE_DBG("xxxxx called target_node %s, id %d, label %s\n",target->getName().c_str(), target_id, targetLabel.c_str());
 
 	for (bubble_rib_t::iterator it = rib.begin();it != rib.end(); it++)
 	{
@@ -220,8 +216,19 @@ void ForwarderProphet::_generateDelegatesFor(const DataObjectRef &dObj, const No
 				HAGGLE_DBG("xxxx target_node: %s, id: %d, neighborLabel=%s, targetLabel=%s\n", target->getName().c_str(), target_id, neighborLabel.c_str(), targetLabel.c_str());
 				
 				#ifdef BUBBULE_FULL
+				
 				if (!targetLabel.empty() && !neighborLabel.empty() && 
-				targetLabel.compare(LABEL_NAME)!=0 && neighborLabel.compare(targetLabel)==0 && neighborRank!=0 && neighborRank > myRank)
+				targetLabel.compare(LABEL_NAME)!=0 && myLabel.compare(targetLabel)==0 && neighborLabel.compare(targetLabel)==0 && neighborRank > myRank)
+				{
+					//NodeRef delegate = Node::create_with_id(Node::TYPE_PEER, id_number_to_nodeid[it->first].c_str(), "Label delegate node");
+					sortedNodeListInsert(sorted_delegate_list, delegate, it->second);
+					HAGGLE_DBG("Labelthesame: %s is a good delegate for target %s [neighborLabel=%s, targetLabel=%s]\n", 
+					delegate->getName().c_str(), target->getName().c_str(), neighborLabel.c_str(), targetLabel.c_str());
+					
+				}
+				
+				if (!targetLabel.empty() && !neighborLabel.empty() && 
+				targetLabel.compare(LABEL_NAME)!=0 && myLabel.compare(targetLabel)!=0 && neighborLabel.compare(targetLabel)==0 && neighborRank==1000 )
 				{
 					//NodeRef delegate = Node::create_with_id(Node::TYPE_PEER, id_number_to_nodeid[it->first].c_str(), "Label delegate node");
 					sortedNodeListInsert(sorted_delegate_list, delegate, it->second);

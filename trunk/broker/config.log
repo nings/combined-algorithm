@@ -38,6 +38,7 @@ PATH: /usr/local/haggle/bin
 PATH: /home/amc/bin
 PATH: /usr/local/bin/sqliteman
 PATH: /home/amc/plot
+PATH: /home/amc/android-sdk-linux_x86/platform-tools
 
 
 ## ----------- ##
@@ -695,8 +696,8 @@ configure:16343: result: yes
 configure:16353: checking for apkbuilder
 configure:16386: result: no
 configure:16449: checking for ant
-configure:16477: result: no
-configure:16488: result: Install Ant to build Android applications
+configure:16465: found /usr/bin/ant
+configure:16477: result: yes
 configure:16741: creating ./config.status
 
 ## ---------------------- ##
@@ -813,7 +814,7 @@ ac_cv_prog_cc_c89=
 ac_cv_prog_cc_g=yes
 ac_cv_prog_cxx_g=yes
 ac_cv_prog_have_android_sdk=yes
-ac_cv_prog_have_ant=no
+ac_cv_prog_have_ant=yes
 ac_cv_prog_make_make_set=yes
 ac_cv_target=x86_64-unknown-linux-gnu
 am_cv_CC_dependencies_compiler_type=gcc3
@@ -846,16 +847,16 @@ lt_cv_sys_max_cmd_len=1572864
 ## Output variables. ##
 ## ----------------- ##
 
-ACLOCAL='${SHELL} /home/amc/Desktop/haggle/haggle-cambridge/bubble/missing --run aclocal-1.11'
+ACLOCAL='${SHELL} /media/data/haggle/combined-algorithm/broker/missing --run aclocal-1.11'
 AMDEPBACKSLASH='\'
 AMDEP_FALSE='#'
 AMDEP_TRUE=''
-AMTAR='${SHELL} /home/amc/Desktop/haggle/haggle-cambridge/bubble/missing --run tar'
+AMTAR='${SHELL} /media/data/haggle/combined-algorithm/broker/missing --run tar'
 ANDROID_SDK_PATH='.'
 AR='ar'
-AUTOCONF='${SHELL} /home/amc/Desktop/haggle/haggle-cambridge/bubble/missing --run autoconf'
-AUTOHEADER='${SHELL} /home/amc/Desktop/haggle/haggle-cambridge/bubble/missing --run autoheader'
-AUTOMAKE='${SHELL} /home/amc/Desktop/haggle/haggle-cambridge/bubble/missing --run automake-1.11'
+AUTOCONF='${SHELL} /media/data/haggle/combined-algorithm/broker/missing --run autoconf'
+AUTOHEADER='${SHELL} /media/data/haggle/combined-algorithm/broker/missing --run autoheader'
+AUTOMAKE='${SHELL} /media/data/haggle/combined-algorithm/broker/missing --run automake-1.11'
 AWK='gawk'
 BENCHMARK_FALSE=''
 BENCHMARK_TRUE='#'
@@ -906,8 +907,8 @@ EXTRACTOR_CFLAGS=''
 EXTRACTOR_LIBS=''
 FGREP='/bin/grep -F'
 GREP='/bin/grep'
-HAVE_ANDROID_SDK_FALSE=''
-HAVE_ANDROID_SDK_TRUE='#'
+HAVE_ANDROID_SDK_FALSE='#'
+HAVE_ANDROID_SDK_TRUE=''
 HAVE_DBUS_FALSE='#'
 HAVE_DBUS_TRUE=''
 HAVE_EXCEPTION_FALSE='#'
@@ -933,7 +934,7 @@ LIBTOOL='$(SHELL) $(top_builddir)/libtool'
 LIPO=''
 LN_S='ln -s'
 LTLIBOBJS=''
-MAKEINFO='${SHELL} /home/amc/Desktop/haggle/haggle-cambridge/bubble/missing --run makeinfo'
+MAKEINFO='${SHELL} /media/data/haggle/combined-algorithm/broker/missing --run makeinfo'
 MKDIR_P='/bin/mkdir -p'
 NM='/usr/bin/nm -B'
 NMEDIT=''
@@ -1007,8 +1008,8 @@ datarootdir='${prefix}/share'
 docdir='${datarootdir}/doc/${PACKAGE_TARNAME}'
 dvidir='${docdir}'
 exec_prefix='${prefix}'
-have_android_sdk='no'
-have_ant='no'
+have_android_sdk='yes'
+have_ant='yes'
 have_doxygen=''
 host='x86_64-unknown-linux-gnu'
 host_alias=''
@@ -1018,7 +1019,7 @@ host_vendor='unknown'
 htmldir='${docdir}'
 includedir='${prefix}/include'
 infodir='${datarootdir}/info'
-install_sh='${SHELL} /home/amc/Desktop/haggle/haggle-cambridge/bubble/install-sh'
+install_sh='${SHELL} /media/data/haggle/combined-algorithm/broker/install-sh'
 libdir='${exec_prefix}/lib'
 libexecdir='${exec_prefix}/libexec'
 localedir='${datarootdir}/locale'
